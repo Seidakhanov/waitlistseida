@@ -23,7 +23,7 @@ const formSchema = z.object({
 
 type FormData = z.infer<typeof formSchema>;
 
-const REDIRECT_URL = "https://linktw.in/VGGNSc";
+const YOUTUBE_URL = "https://www.youtube.com/watch?v=GxyG60PwJ_k";
 
 const Index = () => {
   const [showForm, setShowForm] = useState(false);
@@ -36,6 +36,36 @@ const Index = () => {
       phone: "",
     },
   });
+
+  const openYouTubeVideo = () => {
+    const videoId = "GxyG60PwJ_k";
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    
+    if (isMobile) {
+      // Попробовать открыть в приложении YouTube
+      const youtubeAppUrl = `youtube://watch?v=${videoId}`;
+      const youtubeWebUrl = YOUTUBE_URL;
+      
+      // Создаем скрытую ссылку для открытия приложения
+      const appLink = document.createElement('a');
+      appLink.href = youtubeAppUrl;
+      appLink.style.display = 'none';
+      document.body.appendChild(appLink);
+      
+      // Пробуем открыть приложение
+      appLink.click();
+      
+      // Если приложение не открылось за 1.5 секунды, открываем в браузере
+      setTimeout(() => {
+        if (!document.hidden) {
+          window.location.href = youtubeWebUrl;
+        }
+        document.body.removeChild(appLink);
+      }, 1500);
+    } else {
+      window.location.href = YOUTUBE_URL;
+    }
+  };
 
   const onSubmit = async (data: FormData) => {
     try {
@@ -54,7 +84,7 @@ const Index = () => {
       setShowThanks(true);
       
       setTimeout(() => {
-        window.location.href = REDIRECT_URL;
+        openYouTubeVideo();
       }, 2000);
     } catch (error) {
       console.error('Error saving lead:', error);
@@ -74,7 +104,7 @@ const Index = () => {
         size="lg"
         className="text-2xl h-20 px-16"
       >
-        Перейти
+        Перейти в YouTube
       </Button>
 
       <Dialog open={showForm} onOpenChange={setShowForm}>
