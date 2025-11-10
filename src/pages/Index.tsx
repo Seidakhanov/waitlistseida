@@ -5,6 +5,8 @@ import * as z from "zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import PhoneInput from "react-phone-number-input";
+import "react-phone-number-input/style.css";
 import {
   Form,
   FormControl,
@@ -18,7 +20,7 @@ import { toast } from "sonner";
 
 const formSchema = z.object({
   name: z.string().trim().min(2, { message: "Имя должно содержать минимум 2 символа" }).max(100),
-  phone: z.string().trim().min(10, { message: "Введите корректный номер телефона" }).max(20),
+  phone: z.string().min(1, { message: "Введите номер телефона" }),
 });
 
 type FormData = z.infer<typeof formSchema>;
@@ -140,7 +142,13 @@ const Index = () => {
                     <FormItem className="flex-1">
                       <FormLabel>Номер телефона</FormLabel>
                       <FormControl>
-                        <Input placeholder="+7 (999) 123-45-67" {...field} />
+                        <PhoneInput
+                          international
+                          defaultCountry="RU"
+                          value={field.value}
+                          onChange={field.onChange}
+                          className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
