@@ -137,7 +137,7 @@ const Index = () => {
           
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-              <div className="flex gap-4">
+              <div className="flex flex-col sm:flex-row gap-4">
                 <FormField
                   control={form.control}
                   name="name"
