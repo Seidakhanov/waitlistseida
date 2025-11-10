@@ -43,12 +43,25 @@ const Index = () => {
     
     if (isMobile) {
       // Попробовать открыть в приложении YouTube
-      window.location.href = `youtube://watch?v=${videoId}`;
+      const youtubeAppUrl = `youtube://watch?v=${videoId}`;
+      const youtubeWebUrl = YOUTUBE_URL;
       
-      // Fallback на обычный HTTPS если приложение не открылось
+      // Создаем скрытую ссылку для открытия приложения
+      const appLink = document.createElement('a');
+      appLink.href = youtubeAppUrl;
+      appLink.style.display = 'none';
+      document.body.appendChild(appLink);
+      
+      // Пробуем открыть приложение
+      appLink.click();
+      
+      // Если приложение не открылось за 1.5 секунды, открываем в браузере
       setTimeout(() => {
-        window.location.href = YOUTUBE_URL;
-      }, 1000);
+        if (!document.hidden) {
+          window.location.href = youtubeWebUrl;
+        }
+        document.body.removeChild(appLink);
+      }, 1500);
     } else {
       window.location.href = YOUTUBE_URL;
     }
