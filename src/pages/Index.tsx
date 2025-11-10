@@ -37,12 +37,7 @@ const Index = () => {
     },
   });
 
-
   const onSubmit = async (data: FormData) => {
-    // Открываем окно СРАЗУ, синхронно с действием пользователя
-    // iOS Safari разрешает это, потому что это прямой ответ на клик
-    const redirectWindow = window.open('about:blank', '_blank');
-    
     try {
       const { error } = await supabase
         .from('finance_practicum_leads')
@@ -58,21 +53,12 @@ const Index = () => {
       setShowForm(false);
       setShowThanks(true);
       
-      // Теперь меняем URL уже открытого окна на YouTube
-      // Используем HTTPS ссылку - iOS автоматически откроет приложение через Universal Links
-      if (redirectWindow) {
-        redirectWindow.location.href = YOUTUBE_URL;
-      } else {
-        // Если окно заблокировано браузером
-        toast.error('Пожалуйста, разрешите всплывающие окна');
-      }
+      setTimeout(() => {
+        window.location.href = YOUTUBE_URL;
+      }, 2000);
     } catch (error) {
       console.error('Error saving lead:', error);
       toast.error('Произошла ошибка. Попробуйте еще раз.');
-      // Закрываем окно если произошла ошибка
-      if (redirectWindow) {
-        redirectWindow.close();
-      }
     }
   };
 
@@ -143,15 +129,9 @@ const Index = () => {
           <DialogHeader>
             <DialogTitle>Спасибо!</DialogTitle>
             <DialogDescription>
-              Видео откроется в новой вкладке
+              Сейчас вы будете перенаправлены на видео...
             </DialogDescription>
           </DialogHeader>
-          <Button 
-            onClick={() => window.open(YOUTUBE_URL, '_blank')}
-            className="w-full"
-          >
-            Открыть видео вручную
-          </Button>
         </DialogContent>
       </Dialog>
     </div>
