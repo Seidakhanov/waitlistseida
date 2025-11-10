@@ -43,7 +43,7 @@ const Index = () => {
     
     if (isMobile) {
       // Попробовать открыть в приложении YouTube
-      const youtubeAppUrl = `vnd.youtube://watch?v=${videoId}`;
+      const youtubeAppUrl = `youtube://watch?v=${videoId}`;
       const youtubeWebUrl = YOUTUBE_URL;
       
       // Создаем скрытую ссылку для открытия приложения
