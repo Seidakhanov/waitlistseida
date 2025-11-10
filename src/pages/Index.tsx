@@ -191,7 +191,7 @@ const Index = () => {
       </Dialog>
 
       <Dialog open={showThanks} onOpenChange={() => {}}>
-        <DialogContent className="sm:max-w-md" onInteractOutside={(e) => e.preventDefault()} onEscapeKeyDown={(e) => e.preventDefault()}>
+        <DialogContent className="sm:max-w-md" onInteractOutside={(e) => e.preventDefault()} onEscapeKeyDown={(e) => e.preventDefault()} hideCloseButton>
           <DialogHeader>
             <DialogTitle>Спасибо!</DialogTitle>
             <DialogDescription>
