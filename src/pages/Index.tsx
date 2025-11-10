@@ -37,26 +37,12 @@ const Index = () => {
     },
   });
 
-  const openYouTubeVideo = () => {
-    const videoId = "GxyG60PwJ_k";
-    const youtubeAppUrl = `youtube://watch?v=${videoId}`;
-    
-    // Создаем скрытую ссылку для открытия приложения YouTube
-    const appLink = document.createElement('a');
-    appLink.href = youtubeAppUrl;
-    appLink.style.display = 'none';
-    document.body.appendChild(appLink);
-    
-    // Пробуем открыть приложение
-    appLink.click();
-    
-    // Удаляем ссылку
-    setTimeout(() => {
-      document.body.removeChild(appLink);
-    }, 100);
-  };
 
   const onSubmit = async (data: FormData) => {
+    // Открываем окно СРАЗУ, синхронно с действием пользователя
+    // iOS Safari разрешает это, потому что это прямой ответ на клик
+    const redirectWindow = window.open('about:blank', '_blank');
+    
     try {
       const { error } = await supabase
         .from('finance_practicum_leads')
@@ -72,12 +58,21 @@ const Index = () => {
       setShowForm(false);
       setShowThanks(true);
       
-      setTimeout(() => {
-        openYouTubeVideo();
-      }, 2000);
+      // Теперь меняем URL уже открытого окна на YouTube
+      // Используем HTTPS ссылку - iOS автоматически откроет приложение через Universal Links
+      if (redirectWindow) {
+        redirectWindow.location.href = YOUTUBE_URL;
+      } else {
+        // Если окно заблокировано браузером
+        toast.error('Пожалуйста, разрешите всплывающие окна');
+      }
     } catch (error) {
       console.error('Error saving lead:', error);
       toast.error('Произошла ошибка. Попробуйте еще раз.');
+      // Закрываем окно если произошла ошибка
+      if (redirectWindow) {
+        redirectWindow.close();
+      }
     }
   };
 
@@ -148,9 +143,15 @@ const Index = () => {
           <DialogHeader>
             <DialogTitle>Спасибо!</DialogTitle>
             <DialogDescription>
-              Сейчас вы будете перенаправлены на видео...
+              Видео откроется в новой вкладке
             </DialogDescription>
           </DialogHeader>
+          <Button 
+            onClick={() => window.open(YOUTUBE_URL, '_blank')}
+            className="w-full"
+          >
+            Открыть видео вручную
+          </Button>
         </DialogContent>
       </Dialog>
     </div>
