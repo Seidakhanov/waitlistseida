@@ -39,21 +39,32 @@ const Index = () => {
 
   const openYouTubeVideo = () => {
     const videoId = "GxyG60PwJ_k";
-    const youtubeAppUrl = `youtube://watch?v=${videoId}`;
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
     
-    // Создаем скрытую ссылку для открытия приложения YouTube
-    const appLink = document.createElement('a');
-    appLink.href = youtubeAppUrl;
-    appLink.style.display = 'none';
-    document.body.appendChild(appLink);
-    
-    // Пробуем открыть приложение
-    appLink.click();
-    
-    // Удаляем ссылку
-    setTimeout(() => {
-      document.body.removeChild(appLink);
-    }, 100);
+    if (isMobile) {
+      // Попробовать открыть в приложении YouTube
+      const youtubeAppUrl = `youtube://watch?v=${videoId}`;
+      const youtubeWebUrl = YOUTUBE_URL;
+      
+      // Создаем скрытую ссылку для открытия приложения
+      const appLink = document.createElement('a');
+      appLink.href = youtubeAppUrl;
+      appLink.style.display = 'none';
+      document.body.appendChild(appLink);
+      
+      // Пробуем открыть приложение
+      appLink.click();
+      
+      // Если приложение не открылось за 1.5 секунды, открываем в браузере
+      setTimeout(() => {
+        if (!document.hidden) {
+          window.location.href = youtubeWebUrl;
+        }
+        document.body.removeChild(appLink);
+      }, 1500);
+    } else {
+      window.location.href = YOUTUBE_URL;
+    }
   };
 
   const onSubmit = async (data: FormData) => {
