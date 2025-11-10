@@ -120,12 +120,12 @@ const Index = () => {
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
               <FormField
                 control={form.control}
-                name="name"
+                name="phone"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Ваше имя</FormLabel>
+                    <FormLabel>Номер телефона</FormLabel>
                     <FormControl>
-                      <Input placeholder="Иван Иванов" {...field} />
+                      <Input placeholder="+7 (999) 123-45-67" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -134,12 +134,12 @@ const Index = () => {
               
               <FormField
                 control={form.control}
-                name="phone"
+                name="name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Номер телефона</FormLabel>
+                    <FormLabel>Ваше имя</FormLabel>
                     <FormControl>
-                      <Input placeholder="+7 (999) 123-45-67" {...field} />
+                      <Input placeholder="Иван Иванов" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
