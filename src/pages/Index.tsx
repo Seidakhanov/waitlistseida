@@ -139,7 +139,7 @@ const Index = () => {
                   <FormItem>
                     <FormLabel>Номер телефона</FormLabel>
                     <FormControl>
-                      <Input placeholder="+7 (999) 123-45-67" autoFocus {...field} />
+                      <Input placeholder="+7 (999) 123-45-67" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
