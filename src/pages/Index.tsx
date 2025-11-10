@@ -37,11 +37,37 @@ const Index = () => {
     },
   });
 
-  const onSubmit = async (data: FormData) => {
-    // Открываем окно сразу при клике пользователя (синхронно)
-    // Это предотвращает блокировку Safari
-    const redirectWindow = window.open('about:blank', '_blank');
+  const openYouTubeVideo = () => {
+    const videoId = "GxyG60PwJ_k";
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
     
+    if (isMobile) {
+      // Попробовать открыть в приложении YouTube
+      const youtubeAppUrl = `youtube://watch?v=${videoId}`;
+      const youtubeWebUrl = YOUTUBE_URL;
+      
+      // Создаем скрытую ссылку для открытия приложения
+      const appLink = document.createElement('a');
+      appLink.href = youtubeAppUrl;
+      appLink.style.display = 'none';
+      document.body.appendChild(appLink);
+      
+      // Пробуем открыть приложение
+      appLink.click();
+      
+      // Если приложение не открылось за 1.5 секунды, открываем в браузере
+      setTimeout(() => {
+        if (!document.hidden) {
+          window.location.href = youtubeWebUrl;
+        }
+        document.body.removeChild(appLink);
+      }, 1500);
+    } else {
+      window.location.href = YOUTUBE_URL;
+    }
+  };
+
+  const onSubmit = async (data: FormData) => {
     try {
       const { error } = await supabase
         .from('finance_practicum_leads')
@@ -57,21 +83,12 @@ const Index = () => {
       setShowForm(false);
       setShowThanks(true);
       
-      // Перенаправляем уже открытое окно
-      if (redirectWindow) {
-        redirectWindow.location.href = YOUTUBE_URL;
-      } else {
-        // Fallback: если popup был заблокирован, показываем кнопку
-        toast.error('Пожалуйста, разрешите всплывающие окна или нажмите на кнопку в сообщении');
-      }
+      setTimeout(() => {
+        openYouTubeVideo();
+      }, 2000);
     } catch (error) {
       console.error('Error saving lead:', error);
       toast.error('Произошла ошибка. Попробуйте еще раз.');
-      
-      // Закрываем окно если была ошибка
-      if (redirectWindow) {
-        redirectWindow.close();
-      }
     }
   };
 
@@ -142,16 +159,9 @@ const Index = () => {
           <DialogHeader>
             <DialogTitle>Спасибо!</DialogTitle>
             <DialogDescription>
-              Видео откроется в новой вкладке
+              Сейчас вы будете перенаправлены на видео...
             </DialogDescription>
           </DialogHeader>
-          <div className="flex justify-center mt-4">
-            <Button asChild>
-              <a href={YOUTUBE_URL} target="_blank" rel="noopener noreferrer">
-                Открыть видео вручную
-              </a>
-            </Button>
-          </div>
         </DialogContent>
       </Dialog>
     </div>
