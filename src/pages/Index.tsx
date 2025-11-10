@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
+import { isValidPhoneNumber } from "libphonenumber-js";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
@@ -21,7 +22,10 @@ import { toast } from "sonner";
 
 const formSchema = z.object({
   name: z.string().trim().min(2, { message: "Имя должно содержать минимум 2 символа" }).max(100),
-  phone: z.string().min(1, { message: "Введите номер телефона" }),
+  phone: z.string().min(1, { message: "Введите номер телефона" }).refine(
+    (value) => isValidPhoneNumber(value),
+    { message: "Введите корректный номер телефона" }
+  ),
 });
 
 type FormData = z.infer<typeof formSchema>;
