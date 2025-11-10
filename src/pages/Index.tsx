@@ -23,7 +23,7 @@ const formSchema = z.object({
 
 type FormData = z.infer<typeof formSchema>;
 
-const YOUTUBE_URL = "https://www.youtube.com/watch?v=GxyG60PwJ_k";
+const REDIRECT_URL = "https://linktw.in/VGGNSc";
 
 const Index = () => {
   const [showForm, setShowForm] = useState(false);
@@ -54,7 +54,7 @@ const Index = () => {
       setShowThanks(true);
       
       setTimeout(() => {
-        window.location.href = YOUTUBE_URL;
+        window.location.href = REDIRECT_URL;
       }, 2000);
     } catch (error) {
       console.error('Error saving lead:', error);
@@ -74,7 +74,7 @@ const Index = () => {
         size="lg"
         className="text-2xl h-20 px-16"
       >
-        Перейти в YouTube
+        Перейти
       </Button>
 
       <Dialog open={showForm} onOpenChange={setShowForm}>
