@@ -108,7 +108,7 @@ const Index = () => {
       </Button>
 
       <Dialog open={showForm} onOpenChange={setShowForm}>
-        <DialogContent className="sm:max-w-md">
+        <DialogContent className="sm:max-w-md" onOpenAutoFocus={(e) => e.preventDefault()}>
           <DialogHeader>
             <DialogTitle>Последний шаг</DialogTitle>
             <DialogDescription>
