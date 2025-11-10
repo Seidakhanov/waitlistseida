@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -30,6 +30,23 @@ const YOUTUBE_URL = "https://www.youtube.com/watch?v=GxyG60PwJ_k";
 const Index = () => {
   const [showForm, setShowForm] = useState(false);
   const [showThanks, setShowThanks] = useState(false);
+  const [countryCode, setCountryCode] = useState<string>("RU");
+
+  useEffect(() => {
+    const detectCountry = async () => {
+      try {
+        const response = await fetch("https://get.geojs.io/v1/ip/country.json");
+        const data = await response.json();
+        if (data.country) {
+          setCountryCode(data.country);
+        }
+      } catch (error) {
+        console.log("Could not detect country, using default RU");
+      }
+    };
+    
+    detectCountry();
+  }, []);
 
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
@@ -144,7 +161,7 @@ const Index = () => {
                       <FormControl>
                         <PhoneInput
                           international
-                          defaultCountry="RU"
+                          defaultCountry={countryCode as any}
                           value={field.value}
                           onChange={field.onChange}
                           className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
