@@ -128,7 +128,7 @@ const Index = () => {
       </Button>
 
       <Dialog open={showForm} onOpenChange={setShowForm}>
-        <DialogContent className="sm:max-w-md">
+        <DialogContent className="sm:max-w-md top-[20%] translate-y-0">
           <DialogHeader>
             <DialogTitle>Последний шаг</DialogTitle>
             <DialogDescription>
@@ -178,8 +178,8 @@ const Index = () => {
                 />
               </div>
               
-              <Button type="submit" className="w-full">
-                Продолжить
+              <Button type="submit" variant="youtube" className="w-full">
+                Перейти в YouTube
               </Button>
             </form>
           </Form>
