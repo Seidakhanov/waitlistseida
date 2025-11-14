@@ -41,20 +41,21 @@ All colors MUST be HSL.
 
     --radius: 0.5rem;
 
+    /* Custom gradients and effects */
+    --red-gradient-start: 0 100% 32%;
+    --red-gradient-middle: 0 83% 47%;
+    --red-gradient-end: 0 100% 32%;
+    
+    /* Shadows */
+    --shadow-red-inset: inset 0px 6px 12px rgba(255, 255, 255, 0.45), inset 0px -7.2px 19.2px rgba(255, 255, 255, 0.55);
+
     --sidebar-background: 240 5.9% 10%;
-
     --sidebar-foreground: 240 4.8% 95.9%;
-
     --sidebar-primary: 224.3 76.3% 48%;
-
     --sidebar-primary-foreground: 0 0% 100%;
-
     --sidebar-accent: 240 3.7% 15.9%;
-
     --sidebar-accent-foreground: 240 4.8% 95.9%;
-
     --sidebar-border: 240 3.7% 15.9%;
-
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
 
@@ -106,6 +107,15 @@ All colors MUST be HSL.
   }
 
   body {
-    @apply bg-background text-foreground;
+    font-family: "Montserrat", sans-serif;
+    font-weight: 400;
+    @apply bg-background text-foreground bg-cover lg:bg-[length:100%_100%] lg:bg-left md:bg-center max-w-[1920px] mx-auto;
+    background-image: url(/hero-bg.png);
+  }
+
+  @media (max-width: 640px) {
+    body {
+      background-image: url(/media-bg.png);
+    }
   }
 }

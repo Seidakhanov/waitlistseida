@@ -12,7 +12,23 @@ export default {
         "2xl": "1400px",
       },
     },
+    screens: {
+      'sm': '640px',
+      'md': '768px',
+      'lg': '1024px',
+      'xl': '1280px',
+      '2xl': '1360px',
+    },
     extend: {
+      backgroundImage: {
+        'red-gradient': 'linear-gradient(95.96deg, hsl(var(--red-gradient-start)) -18.15%, hsl(var(--red-gradient-middle)) 51.85%, hsl(var(--red-gradient-end)) 114.92%)',
+        'btn-bg': 'url(/button-bg.png)',
+        'hero-bg': 'url(/hero-bg.png)',
+        'media-bg': 'url(/media-bg.png)',
+      },
+      boxShadow: {
+        'red-inset': 'var(--shadow-red-inset)',
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
